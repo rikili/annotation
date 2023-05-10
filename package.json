@@ -9,9 +9,11 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",
-    "open-electron": "electron ."
+    "open-electron": "electron .",
+    "electron:build-open": "npm run build && npm run open-electron"
   },
   "dependencies": {
+    "pdfvuer": "^2.0.1",
     "vue": "^3.2.47"
   },
   "devDependencies": {
