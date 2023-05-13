@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 
-const { locX, locY, color, id } = defineProps<{
-    locX: number;
-    locY: number;
+const { loc, color, id } = defineProps<{
+    loc: [number, number];
     color: string;
     id: string;
 }>();
