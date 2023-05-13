@@ -27,6 +27,6 @@ coverage
 *.sln
 *.sw?
 
-# Temporary local files
+# Temporary local files + WIP README
 /local
 README.md

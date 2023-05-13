@@ -1,5 +1,5 @@
 {
-  "name": "formless-annotate",
+  "name": "annotation",
   "version": "1.0.0",
   "private": true,
   "main": "./dist/electron/main.js",
