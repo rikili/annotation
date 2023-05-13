@@ -13,7 +13,7 @@ const forwardDisabled = computed(() => currentPage.value === maxPage.value);
 </script>
 
 <template>
-    <div>
+    <div class="pdf-controls">
         <button :disabled="backDisabled" @click="$emit('page-update', -1)">Back</button>
         <div>
             {{ `${currentPage} / ${maxPage}` }}
@@ -21,3 +21,13 @@ const forwardDisabled = computed(() => currentPage.value === maxPage.value);
         <button :disabled="forwardDisabled" @click="$emit('page-update', 1)">Forward</button>
     </div>
 </template>
+
+<style scoped>
+.pdf-controls {
+    display: flex;
+    flex-flow: row nowrap;
+    background-color: rgba(80, 80, 80, 0.7);
+    margin: auto;
+}
+
+</style>
