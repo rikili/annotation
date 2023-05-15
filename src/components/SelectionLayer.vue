@@ -37,7 +37,6 @@ const startSelection = (event: MouseEvent) => {
     if (selectionElement.value) {
         previewElement = document.createElement('div');
         previewElement.className = "selection-preview";
-        previewElement.id = "asdf";
         selectionElement.value.prepend(previewElement);
         previewElement.style.top = String(Math.abs(origin[1] - displace[1])) + "px";
         previewElement.style.left = String(Math.abs(origin[0] - displace[0])) + "px";
@@ -140,6 +139,6 @@ onMounted(() => updateDisplacement());
 .selection-preview {
     position: absolute;
     z-index: 1;
-    background-color: rgba(255,0,0,0.5); /*TODO: update when colouring system is setup*/
+    background-color: rgba(255,0,0,0.5); /* TODO: update when colouring system is setup */
 }
 </style>
