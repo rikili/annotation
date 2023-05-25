@@ -2,6 +2,8 @@
 import { reactive, ref, onMounted, defineProps } from 'vue';
 import { v4 } from 'uuid';
 
+import SelectionSquare from './SelectionSquare.vue';
+
 // const props = defineProps<{
 //     activeColor: string,
 // }>(); TODO: props to be enabled once color system is added 
@@ -81,6 +83,7 @@ const makeSelection = (relativeCoords: [number, number], size: [number, number])
         id: v4(),
         key: `select-${relativeCoords[0]}${relativeCoords[1]}`
     });
+    console.log(state.selections);
 };
 
 const extractNumbers = (input: string) => Number(input.match(/[0-9]+/));
@@ -96,6 +99,7 @@ const endSelection = (didLeaveComp: boolean = false) => {
             [extractNumbers(previewElement.style.left), extractNumbers(previewElement.style.top)],
             [extractNumbers(previewElement.style.width), extractNumbers(previewElement.style.height)]
         );
+        // previewElement.remove();
     }
 };
 
@@ -118,12 +122,13 @@ onMounted(() => updateDisplacement());
         @mousemove="dragSelection"
         @mouseup="endSelection()"
         @mouseleave="endSelection(true)">
-        <div v-for="selection in state.selections">
+        <template v-for="selection in state.selections">
             <SelectionSquare 
                 :loc="selection.loc"
+                :size="selection.size"
                 :color="selection.color"
                 :id="selection.id"/>
-        </div>
+        </template>
         <slot />
     </div>
 </template>
