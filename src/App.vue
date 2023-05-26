@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import RenderCanvas from './components/RenderCanvas.vue'
+import MainPage from './components/MainPage.vue';
+
 </script>
 
 <template>
-  <RenderCanvas />
+  <MainPage />
 </template>

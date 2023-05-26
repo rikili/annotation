@@ -1,19 +1,38 @@
 <script setup lang="ts">
-import { reactive, ref, onMounted, defineProps } from 'vue';
+import { reactive, ref, toRefs, onMounted, defineProps } from 'vue';
 import { v4 } from 'uuid';
 
+import { type Color } from './MainPage.vue';
 import SelectionSquare from './SelectionSquare.vue';
 
-// const props = defineProps<{
-//     activeColor: string,
-// }>(); TODO: props to be enabled once color system is added 
+const props = defineProps<{
+    activeColor?: Color,
+}>();
 
-const mock_color: string = "rgba(255,0,0,1)";
+const { activeColor } = toRefs(props);
+
+const defaultSelection = 'rgba(65,111,240,0.6)'
+const colorToString = (color: Color) => {
+    console.log('asdfasd');
+    return `rgba(${color.red},${color.green},${color.blue},0.5)`;
+};
+
+// const convertedActive = (activeColor && !!activeColor.value) ? colorToString(activeColor.value) : 'rgba(0,0,255,1)';
+
+// const stringToColor = (cssColor: string): Color => {
+//     const parseColor = cssColor.match(/[0-9]+/g);
+//     if (!parseColor) throw Error('Invalid color string inputted');
+//     return {
+//         red: Number(parseColor[0]),
+//         green: Number(parseColor[1]),
+//         blue: Number(parseColor[2])
+//     };
+// };
 
 type Selection = {
     loc: [number, number];
     size: [number, number];
-    color: string;
+    color: Color;
     id: string;
     key: string;
 };
@@ -39,6 +58,7 @@ const startSelection = (event: MouseEvent) => {
     if (selectionElement.value) {
         previewElement = document.createElement('div');
         previewElement.className = "selection-preview";
+        previewElement.style.backgroundColor = (activeColor && activeColor.value) ? colorToString(activeColor.value) : defaultSelection;
         selectionElement.value.prepend(previewElement);
         previewElement.style.top = String(Math.abs(origin[1] - displace[1])) + "px";
         previewElement.style.left = String(Math.abs(origin[0] - displace[0])) + "px";
@@ -73,13 +93,14 @@ const dragSelection = (event: MouseEvent) => {
 const resetCoords = () => {
     displace = [];
     origin = [];
-};;
+};
 
 const makeSelection = (relativeCoords: [number, number], size: [number, number]) => {
+    if (!(activeColor && activeColor.value)) return;
     state.selections.push({
         loc: relativeCoords,
         size: size,
-        color: mock_color, // TODO: fix when color system is added
+        color: activeColor.value, // TODO: fix when color system is added
         id: v4(),
         key: `select-${relativeCoords[0]}${relativeCoords[1]}`
     });
@@ -94,6 +115,7 @@ const endSelection = (didLeaveComp: boolean = false) => {
         resetCoords();
         return;
     }
+    if (!activeColor) return;
     if (previewElement) {
         makeSelection(
             [extractNumbers(previewElement.style.left), extractNumbers(previewElement.style.top)],
@@ -144,6 +166,5 @@ onMounted(() => updateDisplacement());
 .selection-preview {
     position: absolute;
     z-index: 1;
-    background-color: rgba(255,0,0,0.5); /* TODO: update when colouring system is setup */
 }
 </style>

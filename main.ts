@@ -1,5 +1,7 @@
-const { app, BrowserWindow } = require('electron')
-const path = require('path')
+import { app, BrowserWindow } from 'electron';
+import * as path from 'path';
+
+const DEV_FLAG = '--dev';
 
 const createWindow = () => {
   // Create the browser window.
@@ -11,7 +13,7 @@ const createWindow = () => {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }
-  })
+  });
 
   // and load the index.html of the app.
   mainWindow.loadFile('./dist/index.html')

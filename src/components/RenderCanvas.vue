@@ -1,11 +1,18 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, toRefs, defineProps } from 'vue';
 
+import { type Color } from './MainPage.vue';
 import PDFViewer from './PDFViewer.vue';
 import SelectionLayer from './SelectionLayer.vue';
 import PageController from './PDFPageControl.vue';
 
 enum ZoomSetting { Out, In }
+
+const props = defineProps<{
+    activeColor?: Color,
+}>();
+
+const { activeColor } = toRefs(props);
 
 const scale = ref(1);
 const selectedPage = ref(1);
@@ -26,7 +33,7 @@ const zoom = (setting: ZoomSetting) => (setting === ZoomSetting.In) ? scale.valu
             @click.ctrl="zoom(ZoomSetting.In)"
             @contextmenu.ctrl="zoom(ZoomSetting.Out)">
             <div id="overflow-background"/>
-            <SelectionLayer :scale="scale">
+            <SelectionLayer :scale="scale" :active-color="activeColor">
             <PDFViewer 
                 :scale="scale"
                 :selected-page="selectedPage"
