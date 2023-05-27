@@ -1,34 +1,37 @@
 <script setup lang="ts">
-import { defineEmits, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
+import { storeToRefs } from 'pinia';
 
-import { type Color } from './MainPage.vue';
+import { useColorStore } from '../stores/color';
 
-let timer: number;
-const debounce = (callback: Function, time: Number) => {
-    window.clearTimeout(timer);
-    timer = window.setTimeout(callback, timer);
-}
+const DEBOUNCE_TIME = 400;
 
-const emit = defineEmits(['changeColor']);
+const colorStore = useColorStore();
+const { color } = storeToRefs(colorStore);
+
 const colorSelector = ref<HTMLInputElement | null>();
 
-const selectedColor = ref("#0000FF");
-
-const hexToColor = (hexString: string): Color => {
-    const parsedVals = hexString.match(/[0-9a-f][0-9a-f]/g);
-    if (!(parsedVals && parsedVals.length === 3)) {
-        console.error('Parsing hex color failed. Returning black color');
-        return { red: 0, green: 0, blue: 0 };
-    }
-    return {
-        red: Number(parseInt(parsedVals[0], 16)),
-        green: Number(parseInt(parsedVals[1], 16)),
-        blue: Number(parseInt(parsedVals[2], 16)),
-    }
+let timer: number;
+const debounce = (callback: Function, time: number) => {
+    window.clearTimeout(timer);
+    timer = window.setTimeout(callback, time);
 }
 
+const toTwoHexDigits = (decimal: number) => {
+    const hexValue = decimal.toString(16);
+    if (hexValue.length === 1) {
+        return `0${hexValue}`;
+    }
+    return hexValue;
+}
+const hexActiveColor = () => {
+    return `#${toTwoHexDigits(color.value.red)}${toTwoHexDigits(color.value.green)}${toTwoHexDigits(color.value.blue)}`;
+};
+
+const selectedColor = ref(hexActiveColor());
+
 watch(selectedColor, (newSelection) => {
-    debounce(() => emit('changeColor', hexToColor(newSelection)), 400);
+    debounce(() => colorStore.updateFromHex(newSelection), DEBOUNCE_TIME);
 });
 
 </script>

@@ -4,7 +4,7 @@ import ColorPicker from './ColorPicker.vue';
 
 <template>
     <div id="toolbar-container">
-        <ColorPicker @change-color="(color) => $emit('change-color', color)"/>
+        <ColorPicker />
     </div>
 </template>
 

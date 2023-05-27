@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 
-import { type Color } from './MainPage.vue';
+import type Color from '../types/Color';
 
 const { loc, size, color, id } = defineProps<{
     loc: [number, number];

@@ -6,4 +6,4 @@ import path from 'path';
 export default defineConfig({
   base: path.normalize(__dirname + "\\dist").replaceAll("\\", "/"),
   plugins: [vue()],
-})
+});
